@@ -2,6 +2,7 @@ import requests
 import os
 import re
 import time
+from bs4 import BeautifulSoup
 
 def get_token():
     return os.environ.get('FINDWORK_TOKEN')
@@ -30,19 +31,31 @@ def role_is_intern(role):
         return False
     return True
 
+def is_tech_role(role):
+    match = re.compile('^.*(software|developer|programmer|designer).*$', re.IGNORECASE)
+    search = match.search(role)
+    if not search:
+        return False
+    return True
 
 if __name__ == '__main__':
     TOKEN = get_token()
     url, headers, params = prepare_request(TOKEN)
     count = 0
     while url is not None:
+
         results, next = get_results(url, headers, params)
         for result in results:
             role = result.get('role')
-            if role_is_intern(role):
+            if role_is_intern(role) and is_tech_role(role):
                 print(role)
                 count += 1
+                soup = BeautifulSoup(result.get('text'), features="html.parser")
+                print(soup.get_text()[:260], "...")
+
+
+                ##Ask yes, next etc and add to database
+
         url = next
         time.sleep(1) # to avoid going over request limit
-
     print(count)
