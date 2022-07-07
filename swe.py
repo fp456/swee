@@ -2,16 +2,17 @@ import requests
 import os
 import re
 import time
+from curses import wrapper
 
 def get_token():
     return os.environ.get('FINDWORK_TOKEN')
 
-def prepare_request(token):
+def prepare_request(token, search, location):
     url = 'https://findwork.dev/api/jobs/'
     headers = {'Authorization': 'Token ' + token}
     params = {}
-    params['search'] = input('Enter search term [Leave blank if none]: ')
-    params['location'] = input('Enter location [Leave blank if none]: ')
+    params['search'] = search
+    params['location'] = location
     return url, headers, params
 
 def get_results(url, headers, params):
@@ -20,7 +21,7 @@ def get_results(url, headers, params):
                         params = params).json()
     return data.get('results'), data.get('next')
 
-def role_is_intern(role):
+def is_internship(role):
     match = re.compile('intern(.*)', re.IGNORECASE)
     exclude = re.compile('^(ation)?al')
     search = match.search(role)
@@ -31,18 +32,17 @@ def role_is_intern(role):
     return True
 
 
+
 if __name__ == '__main__':
     TOKEN = get_token()
-    url, headers, params = prepare_request(TOKEN)
-    count = 0
+    search = input('Enter search term [Leave blank if none]: ')
+    location = input('Enter location [Leave blank if none]: ')
+    url, headers, params = prepare_request(TOKEN, search, location)
     while url is not None:
         results, next = get_results(url, headers, params)
         for result in results:
             role = result.get('role')
-            if role_is_intern(role):
+            if is_internship(role):
                 print(role)
-                count += 1
         url = next
         time.sleep(1) # to avoid going over request limit
-
-    print(count)
