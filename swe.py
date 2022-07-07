@@ -35,11 +35,12 @@ class Backend:
         data = requests.get(url, params = params).json()
         return data['results']
 
+
 if __name__ == '__main__':
 
     swe_api = Backend()
 
-   # warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
+    warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
     ADZUNA_ID, ADZUNA_KEY = swe_api.get_token()
     url, params = swe_api.prepare_request(ADZUNA_ID, ADZUNA_KEY, '15', "san francisco")
     results = swe_api.get_results(url, params)
@@ -47,18 +48,3 @@ if __name__ == '__main__':
     for job in results:
         title = job.get('title')
         print(title)
-
-#               soup = BeautifulSoup(result.get('text'), features="html.parser")
-                
-               # if result.get('remote') is True:
-                #    print(result.get('company_name') +  " (Remote)")
-                #elif result.get('location') is not None:
-                #    if result.get('location')[-1] is " ":
-                #        result['location'] = result.get('location')[:-2]
-                  #  print(result.get('company_name') + " (" + result.get('location') + ")")
-                #else:
-                 #   print(result.get('company_name'))
-                
-                #Prints the description 
-                #print(soup.get_text()[:260] + "...")
-                ##Ask "yes, next etc" and add to database
