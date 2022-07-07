@@ -4,7 +4,22 @@ import pprint
 import urllib
 import os
 
-class Backend:        
+class Backend:
+    def __init__(self, country_code, location):
+        self.current_job = 0
+        self.results = []
+        ADZUNA_ID, ADZUNA_KEY = self.get_token()
+        self.executer(country_code, location)
+
+    def executer(self, country_code, location):
+        url, params = self.prepare_request(ADZUNA_ID, ADZUNA_KEY, country_code, location)
+        self.results = self.get_results(url, params)
+
+    #Returns next job from the returned array
+    def next_job(self):
+        self.current_job += 1
+        return self.results[self.current_job - 1]
+
     #Getting the Adzuna id, key
     def get_token(self):
         return os.environ.get('ADZUNA_ID'), os.environ.get('ADZUNA_KEY')
@@ -20,7 +35,7 @@ class Backend:
         page_num = 1
         params['app_id'] = id
         params['app_key'] = key
-        params['results_per_page'] = 100
+        params['results_per_page'] = 1
         params['what_or'] = "software developer programmer designer ML security data product"
         params['title_only'] = "intern"
         params['where'] =  location
@@ -38,13 +53,4 @@ class Backend:
 
 if __name__ == '__main__':
 
-    swe_api = Backend()
-
-    warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
-    ADZUNA_ID, ADZUNA_KEY = swe_api.get_token()
-    url, params = swe_api.prepare_request(ADZUNA_ID, ADZUNA_KEY, '15', "san francisco")
-    results = swe_api.get_results(url, params)
-
-    for job in results:
-        title = job.get('title')
-        print(title)
+    #warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
