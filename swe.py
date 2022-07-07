@@ -5,14 +5,14 @@ import urllib
 import os
 
 class Backend:
-    def __init__(self, country_code, location):
+    def __init__(self, country_num, location):
         self.current_job = 0
         self.results = []
         ADZUNA_ID, ADZUNA_KEY = self.get_token()
-        self.executer(country_code, location)
+        self.executer(country_num, location, ADZUNA_ID, ADZUNA_KEY)
 
-    def executer(self, country_code, location):
-        url, params = self.prepare_request(ADZUNA_ID, ADZUNA_KEY, country_code, location)
+    def executer(self, country_num, location, id, key):
+        url, params = self.prepare_request(id, key, country_num, location)
         self.results = self.get_results(url, params)
 
     #Returns next job from the returned array
@@ -35,7 +35,7 @@ class Backend:
         page_num = 1
         params['app_id'] = id
         params['app_key'] = key
-        params['results_per_page'] = 1
+        params['results_per_page'] = 300
         params['what_or'] = "software developer programmer designer ML security data product"
         params['title_only'] = "intern"
         params['where'] =  location
@@ -54,3 +54,6 @@ class Backend:
 if __name__ == '__main__':
 
     #warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
+
+    swe = Backend("15", "san francisco")
+    print(swe.results)
