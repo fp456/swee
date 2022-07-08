@@ -32,15 +32,15 @@ class Database:
         self.conn.commit()
 
     def delete_job(self, id):
-          """
-          Delete a job by job id
-          :param conn:  Connection to the SQLite database
-          :param id: id of the job
-          :return:
-          """
-          sql = 'DELETE FROM saved_jobs WHERE id=?'
-          self.cur.execute(sql, (id,))
-          self.conn.commit()
+        """
+        Delete a job by job id
+        :param conn:  Connection to the SQLite database
+        :param id: id of the job
+        :return:
+        """
+        sql = 'DELETE FROM saved_jobs WHERE id=?'
+        self.cur.execute(sql, (id,))
+        self.conn.commit()
 
     def get_saved_jobs(self):
         jobs = []
