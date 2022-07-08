@@ -58,6 +58,7 @@ class Database:
 
     def get_job(self, id):
         sql = 'SELECT * FROM saved_jobs WHERE id=?'
+        job = None
         for row in self.cur.execute(sql, (id,)):
             job = {
                   'id': row[0],

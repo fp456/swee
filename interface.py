@@ -186,6 +186,8 @@ def saved_jobs(stdscr, database):
             id = stdscr.getstr().decode(stdscr.encoding)
             curses.noecho()
             job = database.get_job(id)
+            if job is None:
+                continue
             display_job_details(stdscr, job)
             y = stdscr.getyx()[0]
             stdscr.addstr(y+2, 0, 'Press r to return.\n')
