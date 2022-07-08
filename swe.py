@@ -4,6 +4,7 @@ import pprint
 import urllib
 import os
 
+
 class Backend:
     def __init__(self, country_num, location):
         self.current_job = 0
@@ -11,9 +12,11 @@ class Backend:
         ADZUNA_ID, ADZUNA_KEY = self.get_token()
         self.executer(country_num, location, ADZUNA_ID, ADZUNA_KEY)
 
+
     def executer(self, country_num, location, id, key):
         url, params = self.prepare_request(id, key, country_num, location)
         self.results = self.get_results(url, params)
+
 
     # Returns next job from the returned array
     def next_job(self):
@@ -22,13 +25,16 @@ class Backend:
             return None
         return self.results[self.current_job - 1]
 
+
     # Getting the Adzuna id, key
     def get_token(self):
         return os.environ.get('ADZUNA_ID'), os.environ.get('ADZUNA_KEY')
 
+
     # Returning the ISO3 code of a given country
     def get_country_key(self, country_num):
         return countries_codes.countries_dict[country_num]
+
 
     # Prepering the url and parameters
     def prepare_request(self, id, key, country_num, location):
@@ -48,6 +54,7 @@ class Backend:
               f'/search/{page_num}?'
         params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
         return url, params
+
 
     # Get a request
     def get_results(self, url, params):
