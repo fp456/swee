@@ -6,12 +6,12 @@ class Database:
         self.conn = sqlite3.connect('intern_roles.db')
         self.cur = self.conn.cursor()
         self.cur.execute('''CREATE TABLE IF NOT EXISTS saved_jobs
-                        (ID INTEGER PRIMARY KEY,
-                        TITLE TEXT NOT NULL,
-                        COMPANY TEXT NOT NULL,
-                        DESCRIPTION  TEXT NOT NULL,
-                        LOCATION TEXT,
-                        LINK TEXT );''')
+                         (ID INTEGER PRIMARY KEY,
+                         TITLE TEXT NOT NULL,
+                         COMPANY TEXT NOT NULL,
+                         DESCRIPTION  TEXT NOT NULL,
+                         LOCATION TEXT,
+                         LINK TEXT );''')
 
     def save_job(self, job):
         id = job.get('id')
