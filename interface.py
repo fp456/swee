@@ -3,8 +3,9 @@ from swe import Backend
 
 
 def reset_screen(stdscr):
-    stdscr.move(2,0)
+    stdscr.move(2, 0)
     stdscr.clrtobot()
+
 
 def gety(stdscr):
     return stdscr.getyx()[0]
@@ -64,21 +65,21 @@ def display_table(stdscr, table):
 
 def get_country(stdscr):
     countries_dict = {
-        "1" : "Austria",
-        "2" : "Brazil",
+        "1": "Austria",
+        "2": "Brazil",
         "3":  "Canada",
-        "4" : "France",
-        "5" : "Germany",
-        "6" : "India",
-        "7" : "Italy",
-        "8" : "Netherlands",
-        "9" : "New Zealand",
-        "10" : "Poland",
-        "11" : "Russia",
-        "12" : "Singapore",
-        "13" : "South Africa",
-        "14" : "United Kingdom",
-        "15" : "United States",
+        "4": "France",
+        "5": "Germany",
+        "6": "India",
+        "7": "Italy",
+        "8": "Netherlands",
+        "9": "New Zealand",
+        "10": "Poland",
+        "11": "Russia",
+        "12": "Singapore",
+        "13": "South Africa",
+        "14": "United Kingdom",
+        "15": "United States",
     }
     stdscr.addstr('Enter country ID:\n')
     for id, country in countries_dict.items():
@@ -121,8 +122,8 @@ def search(stdscr):
     stdscr.addstr('You are in search.')
     curses.echo()
     reset_screen(stdscr)
-    #stdscr.addstr(2,0,'Enter a keyword to search: ')
-    #keyword = stdscr.getstr().decode(stdscr.encoding)
+    # stdscr.addstr(2,0,'Enter a keyword to search: ')
+    # keyword = stdscr.getstr().decode(stdscr.encoding)
     country = get_country(stdscr)
     reset_screen(stdscr)
     stdscr.addstr('Enter a location: ')
@@ -133,12 +134,12 @@ def search(stdscr):
         job = backend.next_job()
         display_job_details(stdscr, job)
         y = stdscr.getyx()[0]
-        stdscr.addstr(y+2, 0, 'Press n to go to the next job.\n' \
-                              'Press s to save this job.\n' \
+        stdscr.addstr(y+2, 0, 'Press n to go to the next job.\n'
+                              'Press s to save this job.\n'
                               'Press m to return to the main menu.\n')
         input = get_valid_input(stdscr, ['n', 's', 'm'])
         if input == 's':
-            save_job(job) # dummy
+            save_job(job)  # dummy
 
         elif input == 'm':
             return
@@ -146,7 +147,7 @@ def search(stdscr):
 def saved_jobs(stdscr):
     stdscr.clear()
     stdscr.addstr('You are in your saved jobs.')
-    saved = get_saved_jobs() # dummy
+    saved = get_saved_jobs()  # dummy
     page = 0
     while True:
         reset_screen(stdscr)
@@ -174,7 +175,7 @@ def saved_jobs(stdscr):
             stdscr.addstr('Enter the id of the job you\'d like to view: ')
             id = stdscr.getstr().decode(stdscr.encoding)
             curses.noecho()
-            job = get_job(id) # dummy
+            job = get_job(id)  # dummy
             display_job_details(stdscr, job)
             y = stdscr.getyx()[0]
             stdscr.addstr(y+2,0,'Press r to return.\n')

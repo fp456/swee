@@ -38,18 +38,19 @@ class Backend:
         params['app_id'] = id
         params['app_key'] = key
         params['results_per_page'] = 300
-        params['what_or'] = "software developer programmer designer ML security data product"
+        params['what_or'] = "software developer programmer" \
+                            "designer ML security data product"
         params['title_only'] = "intern"
-        params['where'] =  location
+        params['where'] = location
         params['sort_by'] = "relevance"
 
         url = f'https://api.adzuna.com/v1/api/jobs/{country_code}/search/{page_num}?'
         params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
-        return url, params 
+        return url, params
 
     #Get a request
     def get_results(self, url, params):
-        data = requests.get(url, params = params).json()
+        data = requests.get(url, params=params).json()
         return data['results']
 
 
