@@ -1,6 +1,5 @@
 import countries_codes
 import requests
-import pprint
 import urllib
 import os
 
