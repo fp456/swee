@@ -21,7 +21,15 @@ class Backend:
         self.current_job += 1
         if self.current_job >= len(self.results):
             return None
-        return self.results[self.current_job - 1]
+        next = self.results[self.current_job - 1]
+        return {
+            'id': next.get('id'),
+            'title': next.get('title'),
+            'company': next.get('company').get('display_name'),
+            'location': next.get('location').get('display_name'),
+            'description': next.get('description'),
+            'link': next.get('redirect_url')
+        }
 
     # Getting the Adzuna id, key
 

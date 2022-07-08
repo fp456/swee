@@ -1,5 +1,6 @@
 import curses
 from swe import Backend
+from database import Database
 
 
 def reset_screen(stdscr):
@@ -25,10 +26,10 @@ def display_wrap(stdscr, s):
 
 def display_job_details(stdscr, job):
     title = job.get('title')
-    company = job.get('company').get('display_name')
-    location = job.get('location').get('display_name')
+    company = job.get('company')
+    location = job.get('location')
     description = job.get('description')
-    link = job.get('redirect_url')
+    link = job.get('link')
     reset_screen(stdscr)
     stdscr.addstr('Title: ')
     display_wrap(stdscr, title)
@@ -53,18 +54,18 @@ def display_ellipsis(stdscr, s, limit):
 def display_table(stdscr, table):
     stdscr.move(2, 2)
     stdscr.addstr('ID', curses.A_UNDERLINE)
-    stdscr.move(2, 10)
+    stdscr.move(2, 15)
     stdscr.addstr('Title', curses.A_UNDERLINE)
     stdscr.move(2, 50)
     stdscr.addstr('Company', curses.A_UNDERLINE)
     for i in range(len(table)):
         id = str(table[i].get('id'))
         stdscr.move(3 + i, 2)
-        display_ellipsis(stdscr, id, 10)
+        display_ellipsis(stdscr, id, 15)
         title = table[i].get('title')
-        stdscr.move(3 + i, 10)
+        stdscr.move(3 + i, 15)
         display_ellipsis(stdscr, title, 50)
-        company = table[i].get('company').get('display_name')
+        company = table[i].get('company')
         stdscr.move(3 + i, 50)
         display_ellipsis(stdscr, company, stdscr.getmaxyx()[1])
 
@@ -110,6 +111,7 @@ def get_valid_input(stdscr, accepted_inputs):
 
 
 def main(stdscr):
+    database = Database()
     while True:
         stdscr.clear()
         stdscr.addstr('You are in the main menu.\n\n'
@@ -118,14 +120,14 @@ def main(stdscr):
                       'Press q to quit.\n')
         input = get_valid_input(stdscr, ['s', 'v', 'q'])
         if input == 's':
-            search(stdscr)
+            search(stdscr, database)
         elif input == 'v':
-            saved_jobs(stdscr)
+            saved_jobs(stdscr, database)
         elif input == 'q':
             return
 
 
-def search(stdscr):
+def search(stdscr, database):
     stdscr.clear()
     stdscr.addstr('You are in search.')
     curses.echo()
@@ -147,16 +149,15 @@ def search(stdscr):
                               'Press m to return to the main menu.\n')
         input = get_valid_input(stdscr, ['n', 's', 'm'])
         if input == 's':
-            save_job(job)  # dummy
-
+            database.save_job(job)
         elif input == 'm':
             return
 
 
-def saved_jobs(stdscr):
+def saved_jobs(stdscr, database):
     stdscr.clear()
     stdscr.addstr('You are in your saved jobs.')
-    saved = get_saved_jobs()  # dummy
+    saved = database.get_saved_jobs()
     page = 0
     while True:
         reset_screen(stdscr)
@@ -184,7 +185,7 @@ def saved_jobs(stdscr):
             stdscr.addstr('Enter the id of the job you\'d like to view: ')
             id = stdscr.getstr().decode(stdscr.encoding)
             curses.noecho()
-            job = get_job(id)  # dummy
+            job = database.get_job(id)
             display_job_details(stdscr, job)
             y = stdscr.getyx()[0]
             stdscr.addstr(y+2, 0, 'Press r to return.\n')
@@ -194,46 +195,14 @@ def saved_jobs(stdscr):
             stdscr.addstr('Enter the id of the job you\'d like to remove: ')
             id = stdscr.getstr().decode(stdscr.encoding)
             curses.noecho()
-            delete_job(id)  # dummy
+            database.delete_job(id)
+            saved = database.get_saved_jobs()
         elif input == 'n':
             page += 1
         elif input == 'p':
             page -= 1
         elif input == 'm':
             return
-
-# Dummy functions
-
-
-def save_job(job_info):
-    pass
-
-
-def get_saved_jobs():
-    result = []
-    for i in range(20):
-        template = {
-            'title': 'Software Engineer - Internship',
-            'company': {'display_name': 'Multiply Labs'},
-            'location': {'display_name': 'San Francisco, California'},
-            'description': 'About Multiply Labs At Multiply Labs, our mi...',
-            'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'
-        }
-        template['id'] = i
-        result.append(template)
-    return result
-
-
-def get_job(id):
-    return {'title': 'Software Engineer - Internship',
-            'company': {'display_name': 'Multiply Labs'},
-            'location': {'display_name': 'San Francisco, California'},
-            'description': 'About Multiply Labs At Multiply Labs, our mi...',
-            'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'}
-
-
-def delete_job(id):
-    pass
 
 
 if __name__ == '__main__':
