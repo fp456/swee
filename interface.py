@@ -29,13 +29,13 @@ def display_job_details(stdscr, job):
     reset_screen(stdscr)
     stdscr.addstr('Title: ')
     display_wrap(stdscr, title)
-    stdscr.addstr(gety(stdscr) + 2, 0,'Company: ')
+    stdscr.addstr(gety(stdscr) + 2, 0, 'Company: ')
     display_wrap(stdscr, company)
-    stdscr.addstr(gety(stdscr) + 2, 0,'Location: ')
+    stdscr.addstr(gety(stdscr) + 2, 0, 'Location: ')
     display_wrap(stdscr, location)
-    stdscr.addstr(gety(stdscr) + 2, 0,'Description: ')
+    stdscr.addstr(gety(stdscr) + 2, 0, 'Description: ')
     display_wrap(stdscr, description)
-    stdscr.addstr(gety(stdscr) + 2, 0,'Link: ')
+    stdscr.addstr(gety(stdscr) + 2, 0, 'Link: ')
     display_wrap(stdscr, link)
 
 def display_ellipsis(stdscr, s, limit):
@@ -155,7 +155,7 @@ def saved_jobs(stdscr):
         end = start + 5
         if end >= len(saved):
             end = len(saved)
-        display_table(stdscr, saved[start : end])
+        display_table(stdscr, saved[start:end])
         y = stdscr.getyx()[0]
         stdscr.move(y+2,0)
         prompt = 'Press v to view a job.\n' \
@@ -178,14 +178,14 @@ def saved_jobs(stdscr):
             job = get_job(id)  # dummy
             display_job_details(stdscr, job)
             y = stdscr.getyx()[0]
-            stdscr.addstr(y+2,0,'Press r to return.\n')
+            stdscr.addstr(y+2, 0, 'Press r to return.\n')
             get_valid_input(stdscr, ['r'])
         elif input == 'd':
             curses.echo()
             stdscr.addstr('Enter the id of the job you\'d like to remove: ')
             id = stdscr.getstr().decode(stdscr.encoding)
             curses.noecho()
-            delete_job(id) # dummy
+            delete_job(id)  # dummy
         elif input == 'n':
             page += 1
         elif input == 'p':
