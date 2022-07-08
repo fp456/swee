@@ -18,6 +18,8 @@ class Backend:
     #Returns next job from the returned array
     def next_job(self):
         self.current_job += 1
+        if self.current_job >= len(self.results):
+            return None
         return self.results[self.current_job - 1]
 
     #Getting the Adzuna id, key
