@@ -14,7 +14,7 @@ In order to run our program you will need to set up some environment variables. 
 
 You will need to export your Application ID and Application key in your terminal as environment variables. Replace <your_application_id> and <your_application_key> with your own credentials.
 ```
-export ADZUNA_ID_KEY='<your_application_id>'
+export ADZUNA_ID='<your_application_id>'
 export ADZUNA_KEY='<your_application_key>'
 ```
 
