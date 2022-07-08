@@ -1,6 +1,7 @@
 import curses
 from swe import Backend
 
+
 def reset_screen(stdscr):
     stdscr.move(2,0)
     stdscr.clrtobot()
@@ -15,7 +16,7 @@ def display_wrap(stdscr, s):
     for char in s:
         max_x = stdscr.getmaxyx()[1]
         if getx(stdscr) == max_x:
-            stdscr.move(gety(stdscr)+1,0)
+            stdscr.move(gety(stdscr)+1, 0)
         stdscr.addch(char)
 
 def display_job_details(stdscr, job):
@@ -87,12 +88,10 @@ def get_country(stdscr):
     while id not in countries_dict.keys():
         stdscr.move(gety(stdscr)-2,0)
         stdscr.clrtobot()
-        #stdscr.addstr('Please enter a valid input\n')
+        stdscr.addstr('Please enter a valid input\n')
         stdscr.addstr(id+'\n')
         id = stdscr.getstr().decode(stdscr.encoding)
     return id
-
-
 
 def get_valid_input(stdscr, accepted_inputs):
     input = stdscr.getkey()
@@ -104,9 +103,9 @@ def get_valid_input(stdscr, accepted_inputs):
 def main(stdscr):
     while True:
         stdscr.clear()
-        stdscr.addstr('You are in the main menu.\n\n' \
-                      'Press s to search jobs.\n' \
-                      'Press v to view saved jobs.\n' \
+        stdscr.addstr('You are in the main menu.\n\n'
+                      'Press s to search jobs.\n'
+                      'Press v to view saved jobs.\n'
                       'Press q to quit.\n')
         input = get_valid_input(stdscr, ['s', 'v', 'q'])
         if input == 's':
@@ -131,12 +130,12 @@ def search(stdscr):
     curses.noecho()
     backend = Backend(country, location)
     while True:
-        job = backend.next_job() # dummy
+        job = backend.next_job()
         display_job_details(stdscr, job)
         y = stdscr.getyx()[0]
         stdscr.addstr(y+2, 0, 'Press n to go to the next job.\n' \
-                            'Press s to save this job.\n' \
-                            'Press m to return to the main menu.\n')
+                              'Press s to save this job.\n' \
+                              'Press m to return to the main menu.\n')
         input = get_valid_input(stdscr, ['n', 's', 'm'])
         if input == 's':
             save_job(job) # dummy
@@ -193,7 +192,7 @@ def saved_jobs(stdscr):
         elif input == 'm':
             return
 
-## Dummy functions
+# Dummy functions
 
 def save_job(job_info):
     pass
@@ -205,8 +204,8 @@ def get_saved_jobs():
             'title' : 'Software Engineer - Internship',
             'company' : {'display_name' : 'Multiply Labs'},
             'location' : {'display_name' : 'San Francisco, California'},
-            'description' : 'About Multiply Labs At Multiply Labs, our mission is to be the gold standard technology for the manufacturing of individualized drugs. We develop advanced, cloud-controlled robotic systems to enable the industrial scale production of medicines that are tailored to the needs of each patient. Founded by two PhDs at MIT, our expertise and approach is pushing boundaries at the intersection of robotics and biopharma. Our diverse, collaborative team includes mechanical engineers, electrical engineers\u2026',
-            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se=fMa2WBb-7BGCZmTe-190gA&utm_medium=api&utm_source=283c4e6a&v=F08B3D5BDEC1AD2FB65C49A1FB101CC631A7B282'
+            'description' : 'About Multiply Labs At Multiply Labs, our mi...',
+            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se...'
         }
         template['id'] = i
         result.append(template)
@@ -216,11 +215,12 @@ def get_job(id):
     return {'title' : 'Software Engineer - Internship',
             'company' : {'display_name' : 'Multiply Labs'},
             'location' : {'display_name' : 'San Francisco, California'},
-            'description' : 'About Multiply Labs At Multiply Labs, our mission is to be the gold standard technology for the manufacturing of individualized drugs. We develop advanced, cloud-controlled robotic systems to enable the industrial scale production of medicines that are tailored to the needs of each patient. Founded by two PhDs at MIT, our expertise and approach is pushing boundaries at the intersection of robotics and biopharma. Our diverse, collaborative team includes mechanical engineers, electrical engineers\u2026',
-            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se=fMa2WBb-7BGCZmTe-190gA&utm_medium=api&utm_source=283c4e6a&v=F08B3D5BDEC1AD2FB65C49A1FB101CC631A7B282'}
+            'description' : 'About Multiply Labs At Multiply Labs, our mi...',
+            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se...'}
 
 def delete_job(id):
     pass
+
 
 if __name__ == '__main__':
     curses.wrapper(main)
