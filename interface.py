@@ -10,8 +10,10 @@ def reset_screen(stdscr):
 def gety(stdscr):
     return stdscr.getyx()[0]
 
+
 def getx(stdscr):
     return stdscr.getyx()[1]
+
 
 def display_wrap(stdscr, s):
     for char in s:
@@ -19,6 +21,7 @@ def display_wrap(stdscr, s):
         if getx(stdscr) == max_x:
             stdscr.move(gety(stdscr)+1, 0)
         stdscr.addch(char)
+
 
 def display_job_details(stdscr, job):
     title = job.get('title')
@@ -38,12 +41,14 @@ def display_job_details(stdscr, job):
     stdscr.addstr(gety(stdscr) + 2, 0, 'Link: ')
     display_wrap(stdscr, link)
 
+
 def display_ellipsis(stdscr, s, limit):
     for char in s:
         if getx(stdscr) == limit - 1:
             stdscr.addch('\u2026')
             return
         stdscr.addch(char)
+
 
 def display_table(stdscr, table):
     stdscr.move(2, 2)
@@ -62,6 +67,7 @@ def display_table(stdscr, table):
         company = table[i].get('company').get('display_name')
         stdscr.move(3 + i, 50)
         display_ellipsis(stdscr, company, stdscr.getmaxyx()[1])
+
 
 def get_country(stdscr):
     countries_dict = {
@@ -87,12 +93,13 @@ def get_country(stdscr):
     id = stdscr.getstr().decode(stdscr.encoding)
     stdscr.addstr('\n')
     while id not in countries_dict.keys():
-        stdscr.move(gety(stdscr)-2,0)
+        stdscr.move(gety(stdscr)-2, 0)
         stdscr.clrtobot()
         stdscr.addstr('Please enter a valid input\n')
         stdscr.addstr(id+'\n')
         id = stdscr.getstr().decode(stdscr.encoding)
     return id
+
 
 def get_valid_input(stdscr, accepted_inputs):
     input = stdscr.getkey()
@@ -100,6 +107,7 @@ def get_valid_input(stdscr, accepted_inputs):
         stdscr.addstr('Please enter a valid input\r')
         input = stdscr.getkey()
     return input
+
 
 def main(stdscr):
     while True:
@@ -143,6 +151,7 @@ def search(stdscr):
 
         elif input == 'm':
             return
+
 
 def saved_jobs(stdscr):
     stdscr.clear()
@@ -198,26 +207,29 @@ def saved_jobs(stdscr):
 def save_job(job_info):
     pass
 
+
 def get_saved_jobs():
     result = []
     for i in range(20):
         template = {
-            'title' : 'Software Engineer - Internship',
-            'company' : {'display_name' : 'Multiply Labs'},
-            'location' : {'display_name' : 'San Francisco, California'},
-            'description' : 'About Multiply Labs At Multiply Labs, our mi...',
-            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se...'
+            'title': 'Software Engineer - Internship',
+            'company': {'display_name' : 'Multiply Labs'},
+            'location': {'display_name' : 'San Francisco, California'},
+            'description': 'About Multiply Labs At Multiply Labs, our mi...',
+            'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'
         }
         template['id'] = i
         result.append(template)
     return result
 
+
 def get_job(id):
-    return {'title' : 'Software Engineer - Internship',
-            'company' : {'display_name' : 'Multiply Labs'},
-            'location' : {'display_name' : 'San Francisco, California'},
-            'description' : 'About Multiply Labs At Multiply Labs, our mi...',
-            'redirect_url' : 'https://www.adzuna.com/land/ad/3226294323?se...'}
+    return {'title': 'Software Engineer - Internship',
+            'company': {'display_name' : 'Multiply Labs'},
+            'location': {'display_name' : 'San Francisco, California'},
+            'description': 'About Multiply Labs At Multiply Labs, our mi...',
+            'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'}
+
 
 def delete_job(id):
     pass
