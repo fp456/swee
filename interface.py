@@ -166,7 +166,7 @@ def saved_jobs(stdscr):
             end = len(saved)
         display_table(stdscr, saved[start:end])
         y = stdscr.getyx()[0]
-        stdscr.move(y+2,0)
+        stdscr.move(y+2, 0)
         prompt = 'Press v to view a job.\n' \
                  'Press d to delete a job.\n'
         accepted_inputs = ['v', 'd', 'm']
@@ -204,6 +204,7 @@ def saved_jobs(stdscr):
 
 # Dummy functions
 
+
 def save_job(job_info):
     pass
 
@@ -213,8 +214,8 @@ def get_saved_jobs():
     for i in range(20):
         template = {
             'title': 'Software Engineer - Internship',
-            'company': {'display_name' : 'Multiply Labs'},
-            'location': {'display_name' : 'San Francisco, California'},
+            'company': {'display_name': 'Multiply Labs'},
+            'location': {'display_name': 'San Francisco, California'},
             'description': 'About Multiply Labs At Multiply Labs, our mi...',
             'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'
         }
@@ -225,8 +226,8 @@ def get_saved_jobs():
 
 def get_job(id):
     return {'title': 'Software Engineer - Internship',
-            'company': {'display_name' : 'Multiply Labs'},
-            'location': {'display_name' : 'San Francisco, California'},
+            'company': {'display_name': 'Multiply Labs'},
+            'location': {'display_name': 'San Francisco, California'},
             'description': 'About Multiply Labs At Multiply Labs, our mi...',
             'redirect_url': 'https://www.adzuna.com/land/ad/3226294323?se...'}
 
